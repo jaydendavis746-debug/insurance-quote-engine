@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/QuoteEngine.Core/QuoteEngine.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/QuoteEngine.Tests/QuoteEngine.Tests.csproj" />
+  </Folder>
+</Solution>
