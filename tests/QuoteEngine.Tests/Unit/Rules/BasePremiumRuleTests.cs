@@ -2,7 +2,7 @@ using FluentAssertions;
 using QuoteEngine.Core.Enums;
 using QuoteEngine.Core.Models;
 using QuoteEngine.Core.Rules;
-using Xunit;
+
 
 namespace QuoteEngine.Tests.Unit.Rules;
 
@@ -17,7 +17,7 @@ public class BasePremiumRuleTests
         var request = new QuoteRequest(
             ReferenceId: "QUO-001",
             PolicyType: PolicyType.Property,
-            SumInsured: 100_000m,
+            SumInsured: 100000m,
             ApplicantAge: 35,
             ClaimsInPast3Years: 0
         );
