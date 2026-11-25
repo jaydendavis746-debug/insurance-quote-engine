@@ -24,8 +24,8 @@ namespace QuoteEngine.Specs.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Base Premium Rating", "  As an insurance underwriter\n  I want a minimum premium floor applied to low-val" +
-                "ue policies\n  So that writing small policies remains profitable", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Base Premium Rating", "As an underwriter\nI want to rate base premiums according to policy type rules\nSo " +
+                "that each policy has an accurate starting premium", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -106,7 +106,7 @@ namespace QuoteEngine.Specs.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/BasePremiumRating.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/BasePremiumRating.feature.ndjson", 5);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -134,19 +134,25 @@ namespace QuoteEngine.Specs.Features
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Property quote below threshold receives minimum premium floor")]
+        [global::Xunit.SkippableTheoryAttribute(DisplayName="Quotes below floor threshold receive minimum premium")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Base Premium Rating")]
-        [global::Xunit.TraitAttribute("Description", "Property quote below threshold receives minimum premium floor")]
-        public async global::System.Threading.Tasks.Task PropertyQuoteBelowThresholdReceivesMinimumPremiumFloor()
+        [global::Xunit.TraitAttribute("Description", "Quotes below floor threshold receive minimum premium")]
+        [global::Xunit.InlineDataAttribute("Property", "50000", "150.00", "0", new string[0])]
+        [global::Xunit.InlineDataAttribute("ProfessionalIndemnity", "40000", "250.00", "1", new string[0])]
+        [global::Xunit.InlineDataAttribute("PublicLiability", "50000", "100.00", "2", new string[0])]
+        public async global::System.Threading.Tasks.Task QuotesBelowFloorThresholdReceiveMinimumPremium(string policyType, string sumInsured, string expectedPremium, string @__pickleIndex, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Property quote below threshold receives minimum premium floor", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            argumentsOfScenario.Add("PolicyType", policyType);
+            argumentsOfScenario.Add("SumInsured", sumInsured);
+            argumentsOfScenario.Add("ExpectedPremium", expectedPremium);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Quotes below floor threshold receive minimum premium", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 6
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -156,13 +162,13 @@ namespace QuoteEngine.Specs.Features
             {
                 await this.ScenarioStartAsync();
 #line 7
-    await testRunner.GivenAsync("a customer requests \"Property\" insurance with a sum insured of 50000", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync(string.Format("a customer requests \"{0}\" insurance with a sum insured of {1}", policyType, sumInsured), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
     await testRunner.WhenAsync("the base premium is calculated", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
-    await testRunner.ThenAsync("the base premium should be 150.00", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync(string.Format("the base premium should be {0}", expectedPremium), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
